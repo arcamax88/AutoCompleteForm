@@ -167,7 +167,9 @@ namespace AutoCompleteForm
             }
 
             //26.electronic thermometer
-            else if (modelName == "692" || modelName == "PRO 4000" || modelName == "SURETEMP PLUS" || modelName == "690" || modelName == "PRO6000" || modelName == "THERMOSCAN PRO 4000")
+            else if (modelName == "692" || modelName == "PRO 4000" || modelName == "SURETEMP PLUS" 
+                || modelName == "690" || modelName == "PRO6000" || modelName == "THERMOSCAN PRO 4000"
+                || modelName == "303000")
             {
                 dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeElectronicThermometer.ElectronicThermometerIpmForm, EqTypeElectronicThermometer.ElectronicThermometerAcceptanceForm);
                 ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeElectronicThermometer.ElectronicThermometerParameter);
