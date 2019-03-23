@@ -26,9 +26,8 @@ C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\bin\Debug\AutoC
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\bin\Debug\AutoCompleteForm.pdb
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\bin\Debug\MedicalEquipmentTester.dll
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\bin\Debug\MedicalEquipmentTester.pdb
-C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\bin\Debug\WorkOrder.pdb
-C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.csprojAssemblyReference.cache
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.csproj.CoreCompileInputs.cache
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.csproj.CopyComplete
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.exe
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.pdb
+C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.csprojAssemblyReference.cache
