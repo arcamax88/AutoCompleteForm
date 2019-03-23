@@ -94,8 +94,9 @@ namespace AutoCompleteForm
             //13.alaris asena syringe pumps
             else if (modelName == "ASENA GH" || modelName == "8002MED01-G" || modelName == "9002MED01-G" || modelName == "80053UN01")
             {
-                dictInputAndOuputFilenames.Add(string.Empty, string.Empty);
-                //dictInputAndOuputFilenames = ConstantString.CarefusionAsenadictInputAndOuputFilenames;
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeSyringePump.AlarisAsenaIpmForm, 
+                                             EqTypeSyringePump.AlarisAsenaAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeSyringePump.AlarisAsenaParameters);
             }
             //14.GE Carescape monitors and modules
             else if (modelName == "B450" || modelName == "B40" || modelName == "B650")

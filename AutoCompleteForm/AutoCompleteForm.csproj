@@ -57,6 +57,7 @@
     <Compile Include="EqTypeGeneralDeviceClass1.cs" />
     <Compile Include="EqTypeGeneralDevices.cs" />
     <Compile Include="EqTypeGeneralDevicesClass2.cs" />
+    <Compile Include="EqTypeSyringePump.cs" />
     <Compile Include="EqTypeVitalSignMonitors.cs" />
     <Compile Include="GetDictInputAndOutFiles.cs" />
     <Compile Include="Program.cs" />
