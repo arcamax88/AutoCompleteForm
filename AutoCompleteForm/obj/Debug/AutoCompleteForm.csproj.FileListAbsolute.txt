@@ -30,4 +30,6 @@ C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoC
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.csproj.CopyComplete
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.exe
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.pdb
+C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\bin\Debug\WorkOrder.dll
+C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\bin\Debug\WorkOrder.pdb
 C:\Users\ArcayosR\source\repos\AutoCompleteForm\AutoCompleteForm\obj\Debug\AutoCompleteForm.csprojAssemblyReference.cache

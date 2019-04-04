@@ -13,8 +13,17 @@ namespace AutoCompleteForm
             Dictionary<string, string> forms = new Dictionary<string, string>();
             string selectedInputForm = string.Empty;
             string selectedOutputForm = string.Empty;
-            string OutputIpmFile = ConstantString.IpmFormCompletedFolder + workOrder.ManufacturerName + "_" + workOrder.ModelName + "_" + workOrder.ControlNumber + "_" + workOrder.WorkOrderNumber + ".docx";
+            string OutputIpmFile = string.Empty;
             string OutputAccFile = ConstantString.IpmFormCompletedFolder + "acc_" + workOrder.ManufacturerName + "_" + workOrder.ModelName + "_" + workOrder.ControlNumber + "_" + workOrder.WorkOrderNumber + ".docx";
+
+            if (workOrder.HospitalName == "QCH")
+            {
+                OutputIpmFile = ConstantString.IpmFormCompletedFolder + workOrder.ControlNumber + "_" + workOrder.ModelName + ".docx";
+            }
+            else
+            {
+                OutputIpmFile = ConstantString.IpmFormCompletedFolder + workOrder.ManufacturerName + "_" + workOrder.ModelName + "_" + workOrder.ControlNumber + "_" + workOrder.WorkOrderNumber + ".docx";
+            }
 
             string[] splitAction;
             splitAction = workOrder.Action.Split(':');

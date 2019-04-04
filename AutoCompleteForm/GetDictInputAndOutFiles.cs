@@ -13,17 +13,47 @@ namespace AutoCompleteForm
             var dictInputAndOuputFilenames = new Dictionary<string, string>();
             string modelName = workOrder.ModelName;
 
-            //1.Laerdal Suction Pump
-            if (modelName == "LSU")
+            //1.EZI flowmeter
+            if (modelName == "515800" || modelName == "515820" || modelName == "515824" || modelName == "TM105")
             {
-                dictInputAndOuputFilenames.Add(string.Empty, string.Empty);
-                //dictInputAndOuputFilenames = ConstantString.Aspirator;
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeEziFlowmeter.EziFlowmeterIpmForm,
+                                                EqTypeEziFlowmeter.EziFlowmeterAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeEziFlowmeter.EziFlowmeterParameters);
+            }
+            //1.Dialed type oxygen flowmeter
+            else if (modelName == "PERFLOW MULTY")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeDialedTypeOxygenFlowmeter.DialedTypeOxygenFlowmeterIpmForm,
+                                                EqTypeDialedTypeOxygenFlowmeter.DialedTypeOxygenFlowmeterAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeDialedTypeOxygenFlowmeter.DialedTypeOxygenFlowmeterParameters);
+            }
+            //1.suction attachment with on / off only
+            else if (modelName == "554006" || modelName == "554007" || modelName == "HIGH VACUUM" || modelName == "6700-1229")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeSuctionRegulator.SuctioOnAndOffIpmForm,
+                                                EqTypeSuctionRegulator.SuctioOnAndOffAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeSuctionRegulator.SuctioOnAndOffParameters);
+            }
+            //1.suction attachment with on / off only and reg
+            else if (modelName == "AXSR3HY" || modelName == "6-1229" || modelName == "AXSR2LY")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeSuctionRegulator.SuctioOnAndOffWithRegIpmForm,
+                                                EqTypeSuctionRegulator.SuctioOnAndOffWithRegAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeSuctionRegulator.SuctioOnAndOffWithRegParameters);
+            }
+            //1.Aspirator or Laerdal Suction Pump
+            else if (modelName == "LSU" || modelName == "LCSU 4" || modelName == "HIGH SUCTION")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeAspirator.AspiratorIpmForm,
+                                                EqTypeAspirator.AspiratorAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeAspirator.AspiratorParameters);
             }
             //2.Radiant warmer
-            else if (modelName == "IW932AEA" || modelName == "IW950" || modelName == "IW990AEA")
+            else if (modelName == "IW932AEA" || modelName == "IW950" || modelName == "IW990AEA" || modelName == "IW910AEA") 
             {
-                dictInputAndOuputFilenames.Add(string.Empty, string.Empty);
-                //dictInputAndOuputFilenames = ConstantString.RadiantWarmer;
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeRadiantWarmer.IW910SeriesIpmForm,
+                                                EqTypeAspirator.AspiratorAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeAspirator.AspiratorParameters);
             }
             //3.Phototherapy
             else if (modelName == "3006-BTP")
@@ -32,17 +62,36 @@ namespace AutoCompleteForm
                 //dictInputAndOuputFilenames = ConstantString.Phototheraphy;
             }
             //4.Philips MX series monitor
-            else if (modelName == "M3002A" || modelName == "866062")
+            else if (modelName == "INTELLIVUE MX450" || modelName == "FMS-4" || modelName == "Intellivue MX700")
             {
-                dictInputAndOuputFilenames.Add(string.Empty, string.Empty);
-                //dictInputAndOuputFilenames = ConstantString.PhilipsMX;
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeBedsideMonitors.PhilipsIntellivueMonitorIpmForm,
+                                                EqTypeBedsideMonitors.PhilipsIntellivueMonitorAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeBedsideMonitors.PhilipsIntellivueCO2Parameters);
             }
-            //5.Karl Storz Stack and operating theatre generic devices
+            //4.Philips X2
+            else if (modelName == "INTELLIVUE X2")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeBedsideMonitors.PhilipsIntellivueX2IpmForm,
+                                                EqTypeBedsideMonitors.PhilipsIntellivueMonitorAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeBedsideMonitors.PhilipsIntellivueCO2Parameters);
+            }
+            //4.Philips CO2
+            else if (modelName == "M3014A")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeBedsideMonitors.PhilipsIntellivueCO2IpmForm,
+                                                EqTypeBedsideMonitors.PhilipsIntellivueMonitorAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeBedsideMonitors.PhilipsIntellivueCO2Parameters);
+            }
+            //5.Karl Storz Stack, Olympus and operating theatre generic devices
             else if (modelName == "UP-DR80MD" || modelName == "WD250" || modelName == "EJ-MLA26EK1" || modelName == "20090519" || 
                 modelName == "TC300" || modelName == "TC200EN" || modelName == "264320-20" || modelName == "20133120" || 
                 modelName == "KU.2422.902" || modelName == "PROXENON 350" || modelName == "QUANTUM" || modelName == "VP4826" || 
                 modelName == "9826NB" || modelName == "20133120-1" || modelName == "TC200" || modelName == "UI 500 S1" || 
-                modelName == "20133101-1" || modelName == "18-98001" || modelName == "1898001" || modelName == "E9000")
+                modelName == "20133101-1" || modelName == "18-98001" || modelName == "1898001" || modelName == "E9000" ||
+                modelName == "UCR" || modelName == "CLV-190" || modelName == "CV-190" || modelName == "WM-NP1" || modelName == "OFP" ||
+                modelName == "WM-WP1" || modelName == "DVR-520H" || modelName == "BR650ELCD" || modelName == "WD11013A" ||
+                modelName == "WD200" || modelName == "20090407" ||
+                modelName == "OFP-2" || modelName == "UPD-3" || modelName == "05.001.204" || modelName == "05.001.002")
             {
                 dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeGeneralDevices.GeneralDevicesIpmForm, 
                                                 EqTypeGeneralDevices.GeneralDevicesAcceptanceForm);
@@ -61,7 +110,7 @@ namespace AutoCompleteForm
                 //dictInputAndOuputFilenames = ConstantString.SyringePumpNikiT34;
             }
             //8.general devices
-            else if (modelName == "ACCUMAX" || modelName == "PT101AN" || modelName == "PT101AZ" || modelName == "4500" ||
+            else if (modelName == "ACCUMAX" || modelName == "PT101AN" || modelName == "4500" ||
                 modelName == "AP-206000" || modelName == "1037632" || modelName == "ICEMAN CLEAR" || modelName == "48744" ||
                 modelName == "AP-700000" || modelName == "SMX700HG")
             {
@@ -117,6 +166,13 @@ namespace AutoCompleteForm
                 dictInputAndOuputFilenames.Add(string.Empty, string.Empty);
                 //dictInputAndOuputFilenames = ConstantString.PatientWarmer;
             }
+            //15.patient warmers BAIR HUGGER
+            else if (modelName == "BAIR HUGGER")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypePatientWarmer.BairHuggerIpmForm,
+                                                EqTypePatientWarmer.BairHuggerAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypePatientWarmer.BairHuggerParameters);
+            }
             //16.pro-tens
             //new
             else if (modelName == "PROTENS" || modelName == "PRO-TENS")
@@ -168,6 +224,20 @@ namespace AutoCompleteForm
                 dictInputAndOuputFilenames.Add(string.Empty, string.Empty);
                 //dictInputAndOuputFilenames = ConstantString.FisherAndPaykelMR850;
             }
+            //23.Airvo 2
+            else if (modelName == "PT101AZ")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeFisherAndPaykelHumidier.AirVo2IpmForm,
+                                                EqTypeFisherAndPaykelHumidier.AirVo2AcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeFisherAndPaykelHumidier.AirVo2Parameters);
+            }
+            //23.950
+            else if (modelName == "950ANZ")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeFisherAndPaykelHumidier.FP950IpmForm,
+                                                EqTypeFisherAndPaykelHumidier.FP950AcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeFisherAndPaykelHumidier.FP950Parameters);
+            }
             //24.blood warmer
             else if (modelName == "BW685S")
             {
@@ -197,6 +267,13 @@ namespace AutoCompleteForm
                 dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeSequentialCompressionDevices.CovidienScd700IpmForm, 
                                                 EqTypeSequentialCompressionDevices.CovidienScd700AcceptanceForm);
                 ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeSequentialCompressionDevices.CovidienScd700Parameters);
+            }
+            //28.Zimmer tourniquet
+            else if (modelName == "ATS 2200TS")
+            {
+                dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeTourniquet.ZimmerATSIpmForm,
+                                                EqTypeTourniquet.ZimmerATSAcceptanceForm);
+                ReadOrReplaceMeasuredValue.Action(workOrder, EqTypeTourniquet.ZimmerATSParameters);
             }
             //loan unit class 1 
             else if (modelName == "RDS7A")

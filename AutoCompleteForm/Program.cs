@@ -82,13 +82,16 @@ namespace AutoCompleteForm
                 files = GetDictInputAndOuputFiles.Action(wo);
                 foreach (var pair in files)
                 {
-                    if (pair.Key != string.Empty)
+                    string strPairs = (pair.Key + pair.Value);
+                    if (strPairs == "")
                     {
-                        wo.CreateIpmForm(pair.Key, pair.Value, testers);
+                        Console.WriteLine(strPairs);
+                        workOrdersIpmFormUnfinished.ListOfWorkOrders.Add(item);
                     }
                     else
                     {
-                        workOrdersIpmFormUnfinished.ListOfWorkOrders.Add(item);
+                        Console.WriteLine(pair.Key + " " + pair.Value);
+                        wo.CreateIpmForm(pair.Key, pair.Value, testers);
                     }
                 }
             }

@@ -31,9 +31,7 @@ namespace AutoCompleteForm
         public const string BreastPump = IpmFormFolder + "breast_pump.docx";
         public const string BloodAndFluidWarmer = IpmFormFolder + "blood_and_fluid_warmer.docx";
 
-        public const string Aspirator = IpmFormFolder + "aspirator.docx";
         public const string KarlStorzStack = IpmFormFolder + "general_devices_karl_storz_stack.docx";
-        public const string PhilipsMX = IpmFormFolder + "philips_monitor_mx450_x2.docx";
 
     }
 }

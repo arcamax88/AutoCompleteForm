@@ -44,20 +44,29 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WorkOrder">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2017\WorkOrder\WorkOrder\WorkOrder\bin\Release\WorkOrder.dll</HintPath>
+    <Reference Include="WorkOrder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\WorkOrder\WorkOrder\bin\Release\WorkOrder.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstantString.cs" />
+    <Compile Include="EqTypeAspirator.cs" />
     <Compile Include="EqTypeBedsideMonitors.cs" />
+    <Compile Include="EqTypeDialedTypeOxygenFlowmeter.cs" />
     <Compile Include="EqTypeECGMachines.cs" />
     <Compile Include="EqTypeElectronicThermometer.cs" />
+    <Compile Include="EqTypeEziFlowmeter.cs" />
     <Compile Include="EqTypeFeedingPumps.cs" />
+    <Compile Include="EqTypeFisherAndPaykelHumidier.cs" />
     <Compile Include="EqTypeGeneralDeviceClass1.cs" />
     <Compile Include="EqTypeGeneralDevices.cs" />
     <Compile Include="EqTypeGeneralDevicesClass2.cs" />
+    <Compile Include="EqTypePatientWarmer.cs" />
+    <Compile Include="EqTypeRadiantWarmer.cs" />
+    <Compile Include="EqTypeSuctionRegulator.cs" />
     <Compile Include="EqTypeSyringePump.cs" />
+    <Compile Include="EqTypeTourniquet.cs" />
     <Compile Include="EqTypeVitalSignMonitors.cs" />
     <Compile Include="GetDictInputAndOutFiles.cs" />
     <Compile Include="Program.cs" />
