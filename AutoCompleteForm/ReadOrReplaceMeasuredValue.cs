@@ -14,7 +14,6 @@ namespace AutoCompleteForm
             splitAction = workOrder.Action.Split(':');
             if (splitAction.Length == 2)
             {
-
                 workOrder.Action = splitAction[1];
             }
             else

@@ -13,7 +13,7 @@ namespace AutoCompleteForm
             var dictInputAndOuputFilenames = new Dictionary<string, string>();
             string modelName = workOrder.ModelName;
 
-            //1.EZI flowmeter
+            //EZI flowmeter
             if (modelName == "515800" || modelName == "515820" || modelName == "515824" || modelName == "TM105")
             {
                 dictInputAndOuputFilenames = SelectInputAndOutFiles.Action(workOrder, EqTypeEziFlowmeter.EziFlowmeterIpmForm,
