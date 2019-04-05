@@ -51,33 +51,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstantString.cs" />
-    <Compile Include="EqTypeAspirator.cs" />
-    <Compile Include="EqTypeBedsideMonitors.cs" />
-    <Compile Include="EqTypeDialedTypeOxygenFlowmeter.cs" />
-    <Compile Include="EqTypeECGMachines.cs" />
-    <Compile Include="EqTypeElectronicThermometer.cs" />
-    <Compile Include="EqTypeEziFlowmeter.cs" />
-    <Compile Include="EqTypeFeedingPumps.cs" />
-    <Compile Include="EqTypeFisherAndPaykelHumidier.cs" />
-    <Compile Include="EqTypeGeneralDeviceClass1.cs" />
-    <Compile Include="EqTypeGeneralDevices.cs" />
-    <Compile Include="EqTypeGeneralDevicesClass2.cs" />
-    <Compile Include="EqTypePatientWarmer.cs" />
-    <Compile Include="EqTypeRadiantWarmer.cs" />
-    <Compile Include="EqTypeSuctionRegulator.cs" />
-    <Compile Include="EqTypeSyringePump.cs" />
-    <Compile Include="EqTypeTourniquet.cs" />
-    <Compile Include="EqTypeVitalSignMonitors.cs" />
     <Compile Include="GetDictInputAndOutFiles.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="Models.cs" />
     <Compile Include="ProcessWorkOrderOfLoanUnit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadOrReplaceMeasuredValue.cs" />
     <Compile Include="ReadTesters.cs" />
-    <Compile Include="ReadWorkOrders.cs" />
+    <Compile Include="ReadXmlFile.cs" />
     <Compile Include="SelectInputAndOutFilenames.cs" />
-    <Compile Include="EqTypeSequentialCompressionDevices.cs" />
-    <Compile Include="EqTypeVolumetricInfusionPumps.cs" />
     <Compile Include="WriteUnfinishedWorkOrders.cs" />
   </ItemGroup>
   <ItemGroup>

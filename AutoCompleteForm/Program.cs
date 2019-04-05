@@ -17,10 +17,12 @@ namespace AutoCompleteForm
             //declare all variables
             AIMSExport workOrdersIpmFormUnfinished = new AIMSExport();
             List<Tester> testers = new List<Tester>();
+            List<Model> models = new List<Model>();
             List<Work_Orders> listOfWorkOrdersToBeProcessed = new List<Work_Orders>();
             List<string> parameters = new List<string>();
             string strTestersXmlFile = ConstantString.MainFolder + "List_of_Currently_Used_Tester.xml";
             string strWorkOrdersXmlFile = ConstantString.MainFolder + "Work Orders.xml";
+            string strModelsXmlFile = ConstantString.MainFolder + "models.xml";
             List<WorkOrder.WorkOrder> workOrders = new List<WorkOrder.WorkOrder>();
             Dictionary<string, string> files = new Dictionary<string, string>();
             WorkOrder.WorkOrder wo;
@@ -28,8 +30,11 @@ namespace AutoCompleteForm
             //read the xml file which contains list of test equipment
             testers = ReadTesters.Start(strTestersXmlFile);
 
+            //read the xml file which contains list of models
+            models = ReadXmlFile.Models(strModelsXmlFile);
+
             //read the xml file which contains list of workorders
-            listOfWorkOrdersToBeProcessed = ReadWorkOrders.Start(strWorkOrdersXmlFile);
+            listOfWorkOrdersToBeProcessed = ReadXmlFile.WorkOrders(strWorkOrdersXmlFile);
             int row_count = 0;
             foreach (Work_Orders item in listOfWorkOrdersToBeProcessed)
             {
@@ -49,15 +54,11 @@ namespace AutoCompleteForm
                     wo = ProcessWorkOrderOfLoanUnit.Start(item);
                 }
 
-                //display each post process workorder in the console window
-                Console.WriteLine(row_count + ". " + wo.WorkOrderNumber + " " + wo.ControlNumber + " " + wo.ManufacturerName + " " + wo.ModelName + " " + wo.SerialNumber + " " + wo.DepartmentName
-                    + " " + wo.HospitalName + " " + wo.EmployeeName);
-
                 //add specific form (input file) to each model and inject default values to each parameter
-                files = GetDictInputAndOuputFiles.Action(wo);
+                files = GetDictInputAndOuputFiles.Action(wo, models);
                 foreach (var pair in files)
                 {
-                    if (pair.Key == string.Empty || pair.Value == string.Empty)
+                    if (pair.Key == string.Empty || pair.Value == string.Empty || wo.Action == "THIRD-PARTY")
                     {
                         workOrdersIpmFormUnfinished.ListOfWorkOrders.Add(item);
                     }
@@ -68,6 +69,10 @@ namespace AutoCompleteForm
                         wo.CreateIpmForm(pair.Key, pair.Value, testers);
                     }
                 }
+
+                //display each post process workorder in the console window
+                Console.WriteLine(row_count + ". " + wo.WorkOrderNumber + " " + wo.ControlNumber + " " + wo.ManufacturerName + " " + wo.ModelName + " " + wo.SerialNumber + " " + wo.DepartmentName
+                    + " " + wo.HospitalName + " " + wo.EmployeeName + " " + wo.Action);
             }
             Console.ReadLine();
 

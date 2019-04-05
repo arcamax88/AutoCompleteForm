@@ -12,13 +12,17 @@ namespace AutoCompleteForm
         {
             string[] splitAction;
             splitAction = workOrder.Action.Split(':');
-            if (splitAction.Length == 2)
+            if (splitAction.Length == 1)
+            {
+                workOrder.Action = parameters;
+            }
+            else if (splitAction.Length == 2)
             {
                 workOrder.Action = splitAction[1];
             }
             else
             {
-                workOrder.Action = parameters;
+                workOrder.Action = "THIRD-PARTY";
             }
         }
     }

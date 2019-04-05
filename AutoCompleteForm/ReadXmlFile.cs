@@ -9,9 +9,9 @@ using WorkOrder;
 
 namespace AutoCompleteForm
 {
-    public class ReadWorkOrders
+    public class ReadXmlFile
     {
-        public static List<Work_Orders> Start(string xmlFile)
+        public static List<Work_Orders> WorkOrders(string xmlFile)
         {
             //read the xml file which contains list of workorders
             XmlSerializer deserializer = new XmlSerializer(typeof(AIMSExport));
@@ -21,6 +21,18 @@ namespace AutoCompleteForm
             reader.Close();
 
             return xmlData.ListOfWorkOrders;
+        }
+
+        public static List<Model> Models(string xmlFile)
+        {
+            //read the xml file which contains list of workorders
+            XmlSerializer deserializer = new XmlSerializer(typeof(Models));
+            TextReader reader = new StreamReader(xmlFile);
+            object obj = deserializer.Deserialize(reader);
+            Models xmlData = (Models)obj;
+            reader.Close();
+
+            return xmlData.ListOfModel;
         }
     }
 }
