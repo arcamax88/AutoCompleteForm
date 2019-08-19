@@ -8,21 +8,44 @@ namespace AutoCompleteForm
 {
     public class ReadOrReplaceMeasuredValue
     {
-        public static void Action(WorkOrder.WorkOrder workOrder, string parameters)
+        public static void Action(WorkOrder.WorkOrder workOrder, string _defaultValues)
         {
             string[] splitAction;
-            splitAction = workOrder.Action.Split(':');
-            if (splitAction.Length == 1)
+            string[] splitData;
+            splitAction = workOrder.Action.Split(',');
+            Console.WriteLine(splitAction[0].Trim());
+
+            switch (splitAction.Length)
             {
-                workOrder.Action = parameters;
-            }
-            else if (splitAction.Length == 2)
-            {
-                workOrder.Action = splitAction[1];
-            }
-            else
-            {
-                workOrder.Action = "THIRD-PARTY";
+                case 1:
+                    {
+                        splitData = splitAction[0].Split('=');
+                        if (splitData[0].Trim() == "BTY")
+                        {
+                            workOrder.Action = workOrder.Action + "," + _defaultValues;
+                        }
+                        else
+                        {
+                            workOrder.Action = splitAction[0];
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        workOrder.Action = splitAction[1];
+                        break;
+                    }
+                case 3:
+                    {
+                        workOrder.Action = splitAction[1];
+                        break;
+                    }
+                default:
+                    {
+                        workOrder.Action = _defaultValues;
+                        break;
+                    }
+
             }
         }
     }
