@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 using WorkOrder;
@@ -11,13 +6,19 @@ namespace AutoCompleteForm
 {
     public class WriteUnfinishedWorkOrders
     {
-        public static void Start(AIMSExport wo, string xmlFile)
+        public static void Run(AIMSExport wo, string xmlFile)
         {
-            //replace the xml file with undone workorders
+            string tempFile = xmlFile + ".tmp";
+            string backupFile = xmlFile + ".bak";
+
             XmlSerializer serializer = new XmlSerializer(typeof(AIMSExport));
-            TextWriter writer = new StreamWriter(xmlFile);
-            serializer.Serialize(writer, wo);
-            writer.Close();
+            using (TextWriter writer = new StreamWriter(tempFile))
+            {
+                serializer.Serialize(writer, wo);
+            }
+
+            // Atomically replace the original file; previous version saved as .bak
+            File.Replace(tempFile, xmlFile, backupFile);
         }
     }
 }

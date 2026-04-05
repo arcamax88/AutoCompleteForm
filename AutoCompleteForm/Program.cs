@@ -1,8 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 using WorkOrder;
@@ -14,81 +11,90 @@ namespace AutoCompleteForm
     {
         static void Main(string[] args)
         {
-            //declare all variables
-            AIMSExport workOrdersIpmFormUnfinished = new AIMSExport();
-            List<Tester> testers = new List<Tester>();
-            List<Model> models = new List<Model>();
-            List<Work_Orders> listOfWorkOrdersToBeProcessed = new List<Work_Orders>();
-            List<string> parameters = new List<string>();
-            string strTestersXmlFile = ConstantString.MainFolder + "List_of_Currently_Used_Tester.xml";
+            string strTestersXmlFile    = ConstantString.MainFolder + "List_of_Currently_Used_Tester.xml";
             string strWorkOrdersXmlFile = ConstantString.MainFolder + "Work Orders.xml";
-            string strModelsXmlFile = ConstantString.MainFolder + "models.xml";
-            List<WorkOrder.WorkOrder> workOrders = new List<WorkOrder.WorkOrder>();
-            Dictionary<string, string> files = new Dictionary<string, string>();
-            WorkOrder.WorkOrder wo;
-            bool flagModelSearchResult;
+            string strModelsXmlFile     = ConstantString.MainFolder + "models.xml";
 
-            //read the xml file which contains list of test equipment
-            testers = ReadTesters.Start(strTestersXmlFile);
+            ValidateFilesExist(strTestersXmlFile, strWorkOrdersXmlFile, strModelsXmlFile);
 
-            //read the xml file which contains list of models
-            models = ReadXmlFile.Models(strModelsXmlFile);
+            List<Tester>      testers    = ReadTesters.Run(strTestersXmlFile);
+            List<Model>       models     = ReadXmlFile.Models(strModelsXmlFile);
+            List<Work_Orders> workOrders = ReadXmlFile.WorkOrders(strWorkOrdersXmlFile);
 
-            //read the xml file which contains list of workorders
-            listOfWorkOrdersToBeProcessed = ReadXmlFile.WorkOrders(strWorkOrdersXmlFile);
-            int row_count = 0;
-            foreach (Work_Orders item in listOfWorkOrdersToBeProcessed)
+            // Build O(1) model lookup keyed on trimmed ModelNumber
+            Dictionary<string, Model> modelsByNumber = new Dictionary<string, Model>();
+            foreach (Model m in models)
+                modelsByNumber[m.ModelNumber.Trim()] = m;
+
+            AIMSExport unfinished = new AIMSExport();
+            int rowCount = 0;
+
+            foreach (Work_Orders item in workOrders)
             {
-                flagModelSearchResult = false;
-                //display each pre process workorder in the console window
-                row_count++;
-                Console.WriteLine(row_count + ". " + item.WO_NUMBER + " " + item.TAG_NUMBER + " " + item.MANUFACTURER_DESC + " " +
-                                item.MODEL_NUM + " " + item.SERIAL_NUM + " " + item.LOCATION_DESC + " " + item.EMPLOYEE_DESC);
-                if (item.TAG_NUMBER != "NOEQU")
-                {
-                    //process workorder of registered unit
-                    wo = new WorkOrder.WorkOrder(item.WO_NUMBER, item.EMPLOYEE_DESC, item.STAT_DATETIME, item.TAG_NUMBER, item.SERIAL_NUM,
-                                                item.MANUFACTURER_DESC, item.MODEL_NUM, item.BUILDING_DESC, item.LOCATION_DESC, item.ACTION);
+                rowCount++;
+                Console.WriteLine(rowCount + ". " + item.WO_NUMBER + " " + item.TAG_NUMBER + " " +
+                    item.MANUFACTURER_DESC + " " + item.MODEL_NUM + " " + item.SERIAL_NUM + " " +
+                    item.LOCATION_DESC + " " + item.EMPLOYEE_DESC);
 
-                    //search the wo.ModelName if it is already in the list of models
-                    foreach (Model model in models)
+                WorkOrder.WorkOrder wo;
+                try
+                {
+                    if (item.TAG_NUMBER != "NOEQU")
                     {
-                        if (wo.ModelName == model.ModelNumber.TrimStart().TrimEnd())
+                        wo = new WorkOrder.WorkOrder(item.WO_NUMBER, item.EMPLOYEE_DESC, item.STAT_DATETIME,
+                            item.TAG_NUMBER, item.SERIAL_NUM, item.MANUFACTURER_DESC, item.MODEL_NUM,
+                            item.BUILDING_DESC, item.LOCATION_DESC, item.ACTION);
+
+                        Model model;
+                        if (modelsByNumber.TryGetValue(wo.ModelName, out model))
                         {
                             wo.ModelName = model.ModelName;
-                            files = SelectInputAndOutFiles.Action(wo, model.ConstantParameters, ConstantString.IpmFormFolder + model.IpmForm,
-                                                            ConstantString.AcceptanceFormFolder + model.AcceptanceForm);
-                            foreach (var pair in files)
-                            {
-                                Console.WriteLine(pair.Key.ToString());
-                                Console.WriteLine(pair.Value.ToString());
+                            Dictionary<string, string> forms = SelectInputAndOutFiles.GetForms(
+                                wo, model.ConstantParameters,
+                                ConstantString.IpmFormFolder + model.IpmForm,
+                                ConstantString.AcceptanceFormFolder + model.AcceptanceForm);
 
-                                ////extract the data on the second statement or use the default
-                                //ReadOrReplaceMeasuredValue.Action(wo, model.ConstantParameters);
+                            foreach (var pair in forms)
+                            {
+                                Console.WriteLine(pair.Key);
+                                Console.WriteLine(pair.Value);
                                 wo.CreateIpmForm(pair.Key, pair.Value, testers);
                             }
-                            flagModelSearchResult = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("No model match found for: " + wo.ModelName);
+                            unfinished.ListOfWorkOrders.Add(item);
                         }
                     }
-                    if (!flagModelSearchResult)
+                    else
                     {
-                        Console.WriteLine(wo.ModelName);
-                        workOrdersIpmFormUnfinished.ListOfWorkOrders.Add(item);
+                        wo = ProcessWorkOrderOfLoanUnit.Run(item);
                     }
+
+                    Console.WriteLine(rowCount + ". " + wo.WorkOrderNumber + " " + wo.ControlNumber + " " +
+                        wo.ManufacturerName + " " + wo.ModelName + " " + wo.SerialNumber + " " +
+                        wo.DepartmentName + " " + wo.HospitalName + " " + wo.EmployeeName + " " + wo.Action);
                 }
-                else
+                catch (Exception ex)
                 {
-                    //process workorder of loan unit
-                    wo = ProcessWorkOrderOfLoanUnit.Start(item);
+                    Console.WriteLine("Error processing work order " + item.WO_NUMBER + ": " + ex.Message);
+                    unfinished.ListOfWorkOrders.Add(item);
                 }
-                //display each post process workorder in the console window
-                Console.WriteLine(row_count + ". " + wo.WorkOrderNumber + " " + wo.ControlNumber + " " + wo.ManufacturerName + " " + wo.ModelName + " " + wo.SerialNumber + " " + wo.DepartmentName
-                    + " " + wo.HospitalName + " " + wo.EmployeeName + " " + wo.Action);
             }
+
             Console.ReadLine();
-            //replace the xml file with undone workorders
-            WriteUnfinishedWorkOrders.Start(workOrdersIpmFormUnfinished, strWorkOrdersXmlFile);
+            WriteUnfinishedWorkOrders.Run(unfinished, strWorkOrdersXmlFile);
             Console.ReadLine();
+        }
+
+        private static void ValidateFilesExist(params string[] paths)
+        {
+            foreach (string path in paths)
+            {
+                if (!File.Exists(path))
+                    throw new FileNotFoundException("Required input file not found: " + path);
+            }
         }
     }
 }
